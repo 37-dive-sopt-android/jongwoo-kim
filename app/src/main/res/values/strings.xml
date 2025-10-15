@@ -10,8 +10,8 @@
     <string name="login_button">Welcome To SOPT</string>
     <string name="toast_signup_success">회원가입에 성공하셨습니다!</string>
     <string name="toast_login_success">로그인에 성공하셨습니다!</string>
-    
-    
+
+
     <!-- SignUpActivity -->
     <string name="signup_title">SIGN UP</string>
     <string name="signup_id_title">ID</string>
