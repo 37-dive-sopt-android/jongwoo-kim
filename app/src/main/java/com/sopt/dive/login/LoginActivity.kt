@@ -66,20 +66,11 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val snackBarHostState = remember { SnackbarHostState() }
 
-            Scaffold(
-                snackbarHost = { SnackbarHost(snackBarHostState) }
-            ) { paddingValues ->
+            Scaffold { paddingValues ->
                 Contents(modifier = Modifier.padding(paddingValues)) {
-                    lifecycleScope.launch {
-                        snackBarHostState.showSnackbar(
-                            message = resources.getString(R.string.toast_login_success),
-                            duration = SnackbarDuration.Short
-                        )
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
-                    }
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
                 }
             }
         }
@@ -94,8 +85,8 @@ class LoginActivity : ComponentActivity() {
     ) {
         val focusManager = LocalFocusManager.current
 
-        var idText by remember { mutableStateOf("") }
-        var pwText by remember { mutableStateOf("") }
+        var idText by remember { mutableStateOf<String?>(null) }
+        var pwText by remember { mutableStateOf<String?>(null) }
 
         val signupActivityResult = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == RESULT_OK) {
@@ -135,8 +126,6 @@ class LoginActivity : ComponentActivity() {
                         onClick = {
                             if(idText == answerId && pwText == answerPw) {
                                 loginSuccessCallback()
-                            } else {
-
                             }
                         },
                         modifier = Modifier.Companion
@@ -183,7 +172,7 @@ class LoginActivity : ComponentActivity() {
                 )
 
                 TextField(
-                    value = idText,
+                    value = idText ?: "",
                     onValueChange = { idText = it },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.Transparent,
@@ -213,7 +202,7 @@ class LoginActivity : ComponentActivity() {
                 )
 
                 TextField(
-                    value = pwText,
+                    value = pwText ?: "",
                     onValueChange = { pwText = it },
                     visualTransformation = PasswordVisualTransformation(),
                     colors = TextFieldDefaults.colors(

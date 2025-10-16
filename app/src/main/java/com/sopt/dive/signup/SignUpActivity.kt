@@ -248,6 +248,8 @@ class SignUpActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxWidth()
                 )
 
+                Spacer(Modifier.height(32.dp))
+
                 Spacer(Modifier.weight(1f))
             }
         }
