@@ -1,3 +1,37 @@
 <resources>
-    <string name="app_name">dive</string>
+
+    <!-- LoginActivity -->
+    <string name="login_title">Welcome To SOPT</string>
+    <string name="login_id_title">ID</string>
+    <string name="login_pw_title">PW</string>
+    <string name="login_id_hint">아이디를 입력해주세요</string>
+    <string name="login_pw_hint">비밀번호를 입력해주세요</string>
+    <string name="login_signup_button">회원가입하기</string>
+    <string name="login_button">Welcome To SOPT</string>
+    <string name="toast_signup_success">회원가입에 성공하셨습니다!</string>
+    <string name="toast_login_success">로그인에 성공하셨습니다!</string>
+
+
+    <!-- SignUpActivity -->
+    <string name="signup_title">SIGN UP</string>
+    <string name="signup_id_title">ID</string>
+    <string name="signup_pw_title">PW</string>
+    <string name="signup_nickname_title">NICKNAME</string>
+    <string name="signup_drink_title">주량</string>
+    <string name="signup_id_hint">아이디를 입력해주세요</string>
+    <string name="signup_pw_hint">비밀번호를 입력해주세요</string>
+    <string name="signup_nickname_hint">닉네임을 입력해주세요</string>
+    <string name="signup_drink_hint">소주 주량을 입력해주세요</string>
+    <string name="signup_button">회원가입하기</string>
+    <string name="toast_signup_unavailable">ID, PW, NICKNAME을 모두 입력해주세요</string>
+    <string name="toast_signup_id_unavailable">ID는 6~10자 사이로 입력해주세요.</string>
+    <string name="toast_signup_pw_unavailable">PW는 8~12자 사이로 입력해주세요.</string>
+    <string name="toast_signup_nickname_unavailable">NICKNAME은 1글자 이상 입력해주세요.</string>
+
+    <!-- MainActivity -->
+    <string name="main_id_title">ID : %s</string>
+    <string name="main_pw_title">PW : %s</string>
+    <string name="main_nickname_title">NICKNAME : %s</string>
+    <string name="main_drink_title">주량 : %s</string>
+
 </resources>
