@@ -1,4 +1,4 @@
-package com.sopt.dive
+package com.sopt.dive.presentation.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -31,7 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
-import com.sopt.dive.util.MyApplication.Companion.prefs
+import com.sopt.dive.R
+import com.sopt.dive.MyApplication
 import com.sopt.dive.util.PrefsConst
 import kotlinx.coroutines.launch
 
@@ -42,10 +43,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val snackBarHostState = remember { SnackbarHostState() }
 
-            val idData = prefs.getData(PrefsConst.ID_DATA)
-            val pwData = prefs.getData(PrefsConst.PW_DATA)
-            val nickNameData = prefs.getData(PrefsConst.NICKNAME_DATA)
-            val drinkData = prefs.getData(PrefsConst.DRINK_DATA)
+            val idData = MyApplication.Companion.prefs.getData(PrefsConst.ID_DATA)
+            val pwData = MyApplication.Companion.prefs.getData(PrefsConst.PW_DATA)
+            val nickNameData = MyApplication.Companion.prefs.getData(PrefsConst.NICKNAME_DATA)
+            val drinkData = MyApplication.Companion.prefs.getData(PrefsConst.DRINK_DATA)
 
             LaunchedEffect(Unit) {
                 lifecycleScope.launch {
@@ -60,7 +61,7 @@ class MainActivity : ComponentActivity() {
                 snackbarHost = { SnackbarHost(snackBarHostState) }
             ) { paddingValues ->
                 Contents(
-                    modifier = Modifier.padding(paddingValues),
+                    modifier = Modifier.Companion.padding(paddingValues),
                     idData = idData.toString(),
                     pwData = pwData.toString(),
                     nickNameData = nickNameData.toString(),
@@ -72,7 +73,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun Contents(
-        modifier: Modifier = Modifier,
+        modifier: Modifier = Modifier.Companion,
         idData: String = "",
         pwData: String = "",
         nickNameData: String = "",
@@ -81,7 +82,7 @@ class MainActivity : ComponentActivity() {
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(Color.Companion.White)
                 .padding(horizontal = 16.dp, vertical = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
@@ -89,44 +90,44 @@ class MainActivity : ComponentActivity() {
                 Image(
                     painter = painterResource(id = R.drawable.default_profile),
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.Companion.size(32.dp)
                 )
 
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.Companion.width(8.dp))
 
                 Text(
                     text = nickNameData,
                     fontSize = 24.sp,
-                    color = Color.Black,
-                    fontWeight = FontWeight.Medium
+                    color = Color.Companion.Black,
+                    fontWeight = FontWeight.Companion.Medium
                 )
             }
 
             // ID
             Text(
                 text = stringResource(R.string.main_id_title, idData),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Companion.Medium,
                 fontSize = 16.sp
             )
 
             // PW
             Text(
                 text = stringResource(R.string.main_pw_title, pwData),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Companion.Medium,
                 fontSize = 16.sp
             )
 
             // NICKNAME
             Text(
                 text = stringResource(R.string.main_nickname_title, nickNameData),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Companion.Medium,
                 fontSize = 16.sp
             )
 
             // DRINK
             Text(
                 text = stringResource(R.string.main_drink_title, drinkData),
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Companion.Medium,
                 fontSize = 16.sp
             )
         }

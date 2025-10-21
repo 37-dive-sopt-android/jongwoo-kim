@@ -1,6 +1,5 @@
-package com.sopt.dive.splash.ui.theme
+package com.sopt.dive.presentation.ui.splash.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

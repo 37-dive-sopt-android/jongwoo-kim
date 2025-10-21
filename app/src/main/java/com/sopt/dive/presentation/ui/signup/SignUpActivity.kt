@@ -1,4 +1,4 @@
-package com.sopt.dive.signup
+package com.sopt.dive.presentation.ui.signup
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -49,7 +49,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.util.MyApplication.Companion.prefs
+import com.sopt.dive.MyApplication.Companion.prefs
 import com.sopt.dive.util.PrefsConst
 import kotlinx.coroutines.launch
 

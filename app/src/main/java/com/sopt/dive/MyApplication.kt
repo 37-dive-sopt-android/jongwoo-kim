@@ -1,7 +1,7 @@
-package com.sopt.dive.util
+package com.sopt.dive
 
 import android.app.Application
-
+import com.sopt.dive.util.PreferenceUtil
 
 class MyApplication : Application() {
     companion object {

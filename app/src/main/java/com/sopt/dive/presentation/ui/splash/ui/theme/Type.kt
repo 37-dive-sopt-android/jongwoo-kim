@@ -1,4 +1,4 @@
-package com.sopt.dive.splash.ui.theme
+package com.sopt.dive.presentation.ui.splash.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
