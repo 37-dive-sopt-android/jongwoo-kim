@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.lifecycleScope
 import com.sopt.dive.R
 import com.sopt.dive.MyApplication
+import com.sopt.dive.presentation.ui.main.navigation.MainNavigator
+import com.sopt.dive.presentation.ui.main.navigation.rememberMainNavigator
 import com.sopt.dive.util.PrefsConst
 import kotlinx.coroutines.launch
 
@@ -41,106 +43,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val snackBarHostState = remember { SnackbarHostState() }
-
-            val idData = MyApplication.Companion.prefs.getData(PrefsConst.ID_DATA)
-            val pwData = MyApplication.Companion.prefs.getData(PrefsConst.PW_DATA)
-            val nickNameData = MyApplication.Companion.prefs.getData(PrefsConst.NICKNAME_DATA)
-            val drinkData = MyApplication.Companion.prefs.getData(PrefsConst.DRINK_DATA)
-
-            LaunchedEffect(Unit) {
-                lifecycleScope.launch {
-                    snackBarHostState.showSnackbar(
-                        message = resources.getString(R.string.toast_login_success),
-                        duration = SnackbarDuration.Short
-                    )
-                }
-            }
-
-            Scaffold(
-                snackbarHost = { SnackbarHost(snackBarHostState) }
-            ) { paddingValues ->
-                Contents(
-                    modifier = Modifier.Companion.padding(paddingValues),
-                    idData = idData.toString(),
-                    pwData = pwData.toString(),
-                    nickNameData = nickNameData.toString(),
-                    drinkData = drinkData.toString()
-                )
-            }
+            val navigator: MainNavigator = rememberMainNavigator()
+            MainScreen(navigator = navigator)
         }
-    }
-
-    @Composable
-    private fun Contents(
-        modifier: Modifier = Modifier.Companion,
-        idData: String = "",
-        pwData: String = "",
-        nickNameData: String = "",
-        drinkData: String = "",
-    ) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Color.Companion.White)
-                .padding(horizontal = 16.dp, vertical = 40.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            Row {
-                Image(
-                    painter = painterResource(id = R.drawable.default_profile),
-                    contentDescription = null,
-                    modifier = Modifier.Companion.size(32.dp)
-                )
-
-                Spacer(Modifier.Companion.width(8.dp))
-
-                Text(
-                    text = nickNameData,
-                    fontSize = 24.sp,
-                    color = Color.Companion.Black,
-                    fontWeight = FontWeight.Companion.Medium
-                )
-            }
-
-            // ID
-            Text(
-                text = stringResource(R.string.main_id_title, idData),
-                fontWeight = FontWeight.Companion.Medium,
-                fontSize = 16.sp
-            )
-
-            // PW
-            Text(
-                text = stringResource(R.string.main_pw_title, pwData),
-                fontWeight = FontWeight.Companion.Medium,
-                fontSize = 16.sp
-            )
-
-            // NICKNAME
-            Text(
-                text = stringResource(R.string.main_nickname_title, nickNameData),
-                fontWeight = FontWeight.Companion.Medium,
-                fontSize = 16.sp
-            )
-
-            // DRINK
-            Text(
-                text = stringResource(R.string.main_drink_title, drinkData),
-                fontWeight = FontWeight.Companion.Medium,
-                fontSize = 16.sp
-            )
-        }
-    }
-
-    @Preview
-    @Composable
-    private fun PreviewContents() {
-        Contents(
-            idData = "aaaaa",
-            pwData = "bbbbb",
-            nickNameData = "ccccc",
-            drinkData = "dddddd"
-        )
     }
 }

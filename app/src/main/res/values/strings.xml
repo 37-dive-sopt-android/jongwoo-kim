@@ -1,6 +1,9 @@
 <resources>
 
-    <!-- LoginActivity -->
+    <!-- Splash -->
+    <string name="splash_title">Splash View</string>
+
+    <!-- Login -->
     <string name="login_title">Welcome To SOPT</string>
     <string name="login_id_title">ID</string>
     <string name="login_pw_title">PW</string>
@@ -12,7 +15,7 @@
     <string name="toast_login_success">로그인에 성공하셨습니다!</string>
 
 
-    <!-- SignUpActivity -->
+    <!-- SignUp -->
     <string name="signup_title">SIGN UP</string>
     <string name="signup_id_title">ID</string>
     <string name="signup_pw_title">PW</string>
@@ -28,7 +31,7 @@
     <string name="toast_signup_pw_unavailable">PW는 8~12자 사이로 입력해주세요.</string>
     <string name="toast_signup_nickname_unavailable">NICKNAME은 1글자 이상 입력해주세요.</string>
 
-    <!-- MainActivity -->
+    <!-- Main -->
     <string name="main_id_title">ID : %s</string>
     <string name="main_pw_title">PW : %s</string>
     <string name="main_nickname_title">NICKNAME : %s</string>
