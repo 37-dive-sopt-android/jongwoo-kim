@@ -16,4 +16,10 @@ sealed interface Route {
 sealed interface MainRoute : Route {
     @Serializable
     data object Home : MainRoute
+
+    @Serializable
+    data object Search: MainRoute
+
+    @Serializable
+    data object Profile: MainRoute
 }

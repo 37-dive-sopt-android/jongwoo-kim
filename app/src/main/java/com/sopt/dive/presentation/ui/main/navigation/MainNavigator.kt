@@ -11,16 +11,25 @@ import androidx.navigation.navOptions
 import com.sopt.dive.core.navigation.Route
 import com.sopt.dive.presentation.ui.home.navigation.navigateToHome
 import com.sopt.dive.presentation.ui.login.navigation.navigateToLogin
+import com.sopt.dive.presentation.ui.main.MainTab
+import com.sopt.dive.presentation.ui.profile.navigation.navigateToProfile
+import com.sopt.dive.presentation.ui.search.navigation.navigateToSearch
 import com.sopt.dive.presentation.ui.signup.navigation.navigateToSignup
 
 class MainNavigator(
     val navController: NavHostController
 ) {
     private val currentDestination: NavDestination?
-        @Composable get() = navController
-            .currentBackStackEntryAsState().value?.destination
+    @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val startDestination = Route.Splash
+
+    val currentTab: MainTab?
+        @Composable get() = MainTab.entries.find { tab ->
+            when (tab.route) {
+                else -> currentDestination?.route == tab.route::class.qualifiedName
+            }
+        }
 
     fun navigateToLogin() {
         navController.navigateToLogin(
@@ -46,6 +55,27 @@ class MainNavigator(
                 launchSingleTop = true
             }
         )
+    }
+
+    fun navigate(tab: MainTab) {
+        val navOptions = navOptions {
+            popUpTo(MainTab.HOME.route) {
+                inclusive = false
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+
+        when (tab) {
+            MainTab.HOME -> navController.navigateToHome(navOptions)
+            MainTab.SEARCH -> navController.navigateToSearch(navOptions)
+            MainTab.PROFILE -> navController.navigateToProfile(navOptions)
+        }
+    }
+
+    @Composable
+    fun shouldShowBottomBar() = MainTab.contains {
+        currentDestination?.route == it::class.qualifiedName
     }
 }
 
