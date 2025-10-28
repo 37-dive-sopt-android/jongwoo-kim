@@ -1,6 +1,6 @@
-package com.sopt.dive.presentation.ui.home.data
+package com.sopt.dive.presentation.model.user
 
-data class HomeUserInfoData (
+data class UserInfoData (
     val id: String,
     val pw: String,
     val nickname: String,

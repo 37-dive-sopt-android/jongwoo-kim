@@ -36,8 +36,10 @@ import com.sopt.dive.MyApplication
 import com.sopt.dive.presentation.ui.main.navigation.MainNavigator
 import com.sopt.dive.presentation.ui.main.navigation.rememberMainNavigator
 import com.sopt.dive.util.PrefsConst
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
