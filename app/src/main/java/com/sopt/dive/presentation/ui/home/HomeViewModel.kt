@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.MyApplication.Companion.prefs
 import com.sopt.dive.core.state.UiState
-import com.sopt.dive.presentation.model.friend.FriendInfoData
-import com.sopt.dive.presentation.model.user.UserInfoData
+import com.sopt.dive.domain.model.friend.FriendInfoData
+import com.sopt.dive.domain.model.user.UserInfoData
 import com.sopt.dive.presentation.ui.home.state.HomeUiState
 import com.sopt.dive.util.PrefsConst
 import dagger.hilt.android.lifecycle.HiltViewModel

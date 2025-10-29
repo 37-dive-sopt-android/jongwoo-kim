@@ -1,8 +1,8 @@
 package com.sopt.dive.presentation.ui.home.state
 
 import com.sopt.dive.core.state.UiState
-import com.sopt.dive.presentation.model.friend.FriendInfoData
-import com.sopt.dive.presentation.model.user.UserInfoData
+import com.sopt.dive.domain.model.friend.FriendInfoData
+import com.sopt.dive.domain.model.user.UserInfoData
 
 data class HomeUiState(
     val userInfoLoadState: UiState<UserInfoData> = UiState.Loading,

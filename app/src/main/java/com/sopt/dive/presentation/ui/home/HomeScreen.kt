@@ -1,7 +1,5 @@
 package com.sopt.dive.presentation.ui.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,8 +34,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.sopt.dive.R
 import com.sopt.dive.core.state.UiState
-import com.sopt.dive.presentation.model.friend.FriendInfoData
-import com.sopt.dive.presentation.model.user.UserInfoData
+import com.sopt.dive.domain.model.friend.FriendInfoData
+import com.sopt.dive.domain.model.user.UserInfoData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

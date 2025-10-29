@@ -1,4 +1,4 @@
-package com.sopt.dive.presentation.model.friend
+package com.sopt.dive.domain.model.friend
 
 data class FriendInfoData(
     val id: String,
