@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <application
-        android:name=".util.MyApplication"
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,29 +13,13 @@
         android:theme="@style/Theme.Dive"
         tools:targetApi="31" >
         <activity
-            android:name=".splash.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Dive" >
+            android:name=".presentation.ui.main.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".signup.SignUpActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Dive"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".login.LoginActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Dive"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Dive" >
         </activity>
     </application>
 
