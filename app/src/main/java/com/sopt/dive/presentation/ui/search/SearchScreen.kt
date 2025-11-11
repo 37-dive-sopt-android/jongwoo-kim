@@ -53,7 +53,7 @@ fun SearchScreen(
 }
 
 @Composable
-fun FlipCard() {
+private fun FlipCard() {
     var isFlipped by remember { mutableStateOf(false) }
 
     val rotation by animateFloatAsState(
@@ -67,7 +67,8 @@ fun FlipCard() {
 
     Box(
         modifier = Modifier
-            .size(200.dp, 280.dp)
+            .height(400.dp)
+            .width(260.dp)
             .graphicsLayer {
                 rotationY = rotation
                 cameraDistance = 12f * density
@@ -88,36 +89,27 @@ fun FlipCard() {
 }
 
 @Composable
-fun CardFront() {
+private fun CardFront() {
     Card(
-        modifier = Modifier
-            .height(400.dp)
-            .width(180.dp),
+        modifier = Modifier.fillMaxSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
     ) {
-        Box(
+        Image(
+            painter = painterResource(R.drawable.card_front),
+            contentDescription = null,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(R.drawable.card_front),
-                contentDescription = null,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.fillMaxSize(),
-            )
-        }
+        )
     }
 }
 
 @Composable
-fun CardBack(modifier: Modifier = Modifier) {
+private fun CardBack(modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
-            .height(400.dp)
-            .width(180.dp),
+        modifier = modifier.fillMaxSize(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer
         ),
@@ -130,7 +122,7 @@ fun CardBack(modifier: Modifier = Modifier) {
             Image(
                 painter = painterResource(R.drawable.card_back),
                 contentDescription = null,
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.FillBounds,
                 modifier = Modifier.fillMaxSize(),
             )
         }

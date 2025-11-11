@@ -36,5 +36,6 @@
     <string name="main_pw_title">PW : %s</string>
     <string name="main_nickname_title">NICKNAME : %s</string>
     <string name="main_drink_title">주량 : %s</string>
+    <string name="title_activity_semina">SeminaActivity</string>
 
 </resources>
