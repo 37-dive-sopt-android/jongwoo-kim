@@ -45,19 +45,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat.getString
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.sopt.dive.MyApplication.Companion.prefs
 import com.sopt.dive.R
+import com.sopt.dive.core.state.UiState
+import com.sopt.dive.data.dto.signup.SignupRequestDto
+import com.sopt.dive.data.dto.user.UserInfoData
 import com.sopt.dive.util.PrefsConst
 
 @Composable
 fun SignupRoute(
     paddingValues: PaddingValues,
-    navController: NavController
+    navController: NavController,
+    viewModel: SignupViewModel = hiltViewModel()
 ) {
+    val signupResult by viewModel.signupState.collectAsStateWithLifecycle()
 
-    SignupScreen(paddingValues = paddingValues) {
-        navController.popBackStack()
+    LaunchedEffect(signupResult) {
+        when(signupResult) {
+            is UiState.Success -> {
+                navController.popBackStack()
+            }
+            else -> {}
+        }
+    }
+
+    SignupScreen(paddingValues = paddingValues) { signupRequest ->
+        viewModel.signup(signupRequest)
     }
 }
 
@@ -65,17 +81,18 @@ fun SignupRoute(
 @Composable
 fun SignupScreen(
     paddingValues: PaddingValues = PaddingValues(0.dp),
-    finishSignup: () -> Unit
+    signupOnClick: (signupRequest: SignupRequestDto) -> Unit
 ) {
     val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
     val keyboardHeight = WindowInsets.ime.getBottom(LocalDensity.current)
 
-    var idText by remember { mutableStateOf("") }
+    var nameText by remember { mutableStateOf("") }
     var pwText by remember { mutableStateOf("") }
-    var nickNameText by remember { mutableStateOf("") }
-    var drinkText by remember { mutableStateOf("") }
+    var userNameText by remember { mutableStateOf("") }
+    var emailText by remember { mutableStateOf("") }
+    var ageText by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = keyboardHeight) {
         scrollState.scrollBy(keyboardHeight.toFloat())
@@ -87,16 +104,20 @@ fun SignupScreen(
                 onClick = {
                     if(checkValidation(
                             context = context,
-                            id = idText,
+                            name = nameText,
                             pw = pwText,
-                            nickName = nickNameText))
+                            userName = userNameText))
                     {
-                        prefs.setData(PrefsConst.ID_DATA, idText)
-                        prefs.setData(PrefsConst.PW_DATA, pwText)
-                        prefs.setData(PrefsConst.NICKNAME_DATA, nickNameText)
-                        prefs.setData(PrefsConst.DRINK_DATA, drinkText)
 
-                        finishSignup()
+                        val signupRequest = SignupRequestDto(
+                            name = nameText,
+                            password = pwText,
+                            username = userNameText,
+                            email = emailText,
+                            age = ageText.toInt()
+                        )
+
+                        signupOnClick(signupRequest)
                     }
                 },
                 modifier = Modifier
@@ -137,17 +158,17 @@ fun SignupScreen(
 
             Spacer(Modifier.weight(0.2f))
 
-            /** ID **/
+            /** name **/
             Text(
-                text = stringResource(R.string.signup_id_title),
+                text = stringResource(R.string.signup_name_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
 
             TextField(
-                value = idText,
-                onValueChange = { idText = it },
+                value = nameText,
+                onValueChange = { nameText = it },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
@@ -159,7 +180,7 @@ fun SignupScreen(
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
                 placeholder = {
-                    Text(text = stringResource(R.string.signup_id_hint))
+                    Text(text = stringResource(R.string.signup_name_hint))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -196,17 +217,17 @@ fun SignupScreen(
 
             Spacer(Modifier.height(24.dp))
 
-            /** NickName **/
+            /** username **/
             Text(
-                text = stringResource(R.string.signup_nickname_title),
+                text = stringResource(R.string.signup_username_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
 
             TextField(
-                value = nickNameText,
-                onValueChange = { nickNameText = it },
+                value = userNameText,
+                onValueChange = { userNameText = it },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
@@ -218,24 +239,53 @@ fun SignupScreen(
                     focusManager.moveFocus(FocusDirection.Down)
                 }),
                 placeholder = {
-                    Text(text = stringResource(R.string.signup_nickname_hint))
+                    Text(text = stringResource(R.string.signup_username_hint))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(Modifier.height(24.dp))
 
-            /** Drink **/
+            /** email **/
             Text(
-                text = stringResource(R.string.signup_drink_title),
+                text = stringResource(R.string.signup_email_title),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
 
             TextField(
-                value = drinkText,
-                onValueChange = { drinkText = it },
+                value = emailText,
+                onValueChange = { emailText = it },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    unfocusedPlaceholderColor = Color.LightGray
+                ),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(onNext = {
+                    focusManager.moveFocus(FocusDirection.Down)
+                }),
+                placeholder = {
+                    Text(text = stringResource(R.string.signup_email_hint))
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(24.dp))
+
+            /** Age **/
+            Text(
+                text = stringResource(R.string.signup_age_title),
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.Black
+            )
+
+            TextField(
+                value = ageText,
+                onValueChange = { ageText = it },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
@@ -247,7 +297,7 @@ fun SignupScreen(
                     focusManager.clearFocus()
                 }),
                 placeholder = {
-                    Text(text = stringResource(R.string.signup_drink_hint))
+                    Text(text = stringResource(R.string.signup_age_hint))
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -261,19 +311,19 @@ fun SignupScreen(
 
 private fun checkValidation(
     context: Context,
-    id: String,
+    name: String,
     pw: String,
-    nickName: String
+    userName: String
 ): Boolean {
     val messageRes = when {
-        id.isEmpty() || pw.isEmpty() || nickName.isEmpty() ->
+        name.isEmpty() || pw.isEmpty() || userName.isEmpty() ->
             R.string.toast_signup_unavailable
-        id.length !in 6..10 ->
-            R.string.toast_signup_id_unavailable
+        name.length !in 6..10 ->
+            R.string.toast_signup_name_unavailable
         pw.length !in 8..12 ->
             R.string.toast_signup_pw_unavailable
-        nickName.isEmpty() ->
-            R.string.toast_signup_nickname_unavailable
+        userName.isEmpty() ->
+            R.string.toast_signup_username_unavailable
         else -> null
     }
 
@@ -288,5 +338,7 @@ private fun checkValidation(
 @Preview
 @Composable
 private fun PreviewSignUp() {
-    SignupScreen(finishSignup = {})
+    SignupScreen(
+        signupOnClick = {}
+    )
 }

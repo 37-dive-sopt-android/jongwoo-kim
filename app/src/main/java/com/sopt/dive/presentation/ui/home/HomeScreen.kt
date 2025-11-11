@@ -34,8 +34,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.sopt.dive.R
 import com.sopt.dive.core.state.UiState
+import com.sopt.dive.data.dto.user.UserInfoData
 import com.sopt.dive.domain.model.friend.FriendInfoData
-import com.sopt.dive.domain.model.user.UserInfoData
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -99,7 +99,7 @@ fun HomeScreen(
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        text = homeUserInformation.nickname,
+                        text = homeUserInformation.name,
                         fontSize = 24.sp,
                         color = Color.Black,
                         fontWeight = FontWeight.Medium
@@ -110,21 +110,21 @@ fun HomeScreen(
 
                 // ID
                 Text(
-                    text = stringResource(R.string.main_id_title, homeUserInformation.id),
+                    text = stringResource(R.string.main_name_title, homeUserInformation.name),
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
 
                 // NICKNAME
                 Text(
-                    text = stringResource(R.string.main_nickname_title, homeUserInformation.nickname),
+                    text = stringResource(R.string.main_username_title, homeUserInformation.username),
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
 
                 // DRINK
                 Text(
-                    text = stringResource(R.string.main_drink_title, homeUserInformation.drink),
+                    text = stringResource(R.string.main_age_title, homeUserInformation.age),
                     fontWeight = FontWeight.Medium,
                     fontSize = 16.sp
                 )
@@ -201,10 +201,12 @@ private fun FriendItemLayout(friendInfo: FriendInfoData) {
 @Composable
 private fun PreviewHome() {
     val homeUserInformation = UserInfoData(
-        id = "ididid",
-        pw = "pwpwpwpw",
-        nickname = "nicknick",
-        drink = "drinkdrink"
+        id = 0,
+        username = "userName",
+        name = "name",
+        email = "email",
+        age = 0,
+        status = "status"
     )
 
     HomeScreen(
