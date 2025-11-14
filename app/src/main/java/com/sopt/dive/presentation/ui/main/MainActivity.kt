@@ -35,6 +35,7 @@ import com.sopt.dive.R
 import com.sopt.dive.MyApplication
 import com.sopt.dive.presentation.ui.main.navigation.MainNavigator
 import com.sopt.dive.presentation.ui.main.navigation.rememberMainNavigator
+import com.sopt.dive.ui.theme.DIVETheme
 import com.sopt.dive.util.PrefsConst
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -45,8 +46,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navigator: MainNavigator = rememberMainNavigator()
-            MainScreen(navigator = navigator)
+            DIVETheme {
+                val navigator: MainNavigator = rememberMainNavigator()
+                MainScreen(navigator = navigator)
+            }
         }
     }
 }

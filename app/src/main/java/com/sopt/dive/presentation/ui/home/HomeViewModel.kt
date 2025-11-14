@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.MyApplication.Companion.prefs
 import com.sopt.dive.core.state.UiState
+import com.sopt.dive.data.dto.user.UserInfoData
+import com.sopt.dive.data.factory.ServicePool
 import com.sopt.dive.domain.model.friend.FriendInfoData
-import com.sopt.dive.domain.model.user.UserInfoData
 import com.sopt.dive.presentation.ui.home.state.HomeUiState
 import com.sopt.dive.util.PrefsConst
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
 ) : ViewModel() {
+    private val authService by lazy { ServicePool.authService }
 
     private val _userInfoLoadState = MutableStateFlow<UiState<UserInfoData>>(UiState.Loading)
     private val _friendListLoadState = MutableStateFlow<UiState<List<FriendInfoData>>>(UiState.Loading)
@@ -43,14 +45,14 @@ class HomeViewModel @Inject constructor(
 
 
     fun getUserInfo() = viewModelScope.launch {
-        val dummyUserInfo = UserInfoData(
-            id = prefs.getData(PrefsConst.ID_DATA) ?: "",
-            pw = prefs.getData(PrefsConst.PW_DATA) ?: "",
-            nickname = prefs.getData(PrefsConst.NICKNAME_DATA) ?: "",
-            drink = prefs.getData(PrefsConst.DRINK_DATA) ?: ""
-        )
+        val userId = prefs.getData(PrefsConst.USER_ID_DATA)
+        val result = authService.getUserInfo(userId?.toLong() ?: 0)
 
-        _userInfoLoadState.value = UiState.Success(dummyUserInfo)
+        if(result.isSuccessful) {
+            result.body()?.let {
+                _userInfoLoadState.emit(UiState.Success(it.data))
+            }
+        }
     }
 
     fun getFriendList() = viewModelScope.launch {

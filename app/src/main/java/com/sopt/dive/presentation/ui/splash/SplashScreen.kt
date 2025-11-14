@@ -30,14 +30,14 @@ fun SplashRoute(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val savedId = prefs.getData(PrefsConst.ID_DATA)
+    val savedUserName = prefs.getData(PrefsConst.USER_NAME_DATA)
     val savedPw = prefs.getData(PrefsConst.PW_DATA)
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             delay(2000)
 
-            if(savedId.isNullOrEmpty() && savedPw.isNullOrEmpty()) {
+            if(savedUserName.isNullOrEmpty() && savedPw.isNullOrEmpty()) {
                 navigateToLogin()
             } else {
                 navigateToHome()

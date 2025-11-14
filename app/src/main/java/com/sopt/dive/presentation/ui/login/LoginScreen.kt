@@ -18,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -30,8 +32,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.sopt.dive.MyApplication.Companion.prefs
 import com.sopt.dive.R
+import com.sopt.dive.core.state.UiState
+import com.sopt.dive.data.dto.login.LoginRequestDto
 import com.sopt.dive.presentation.ui.login.state.LoginAccountState
 import com.sopt.dive.presentation.ui.login.state.rememberLoginAccountState
 import com.sopt.dive.util.PrefsConst
@@ -40,12 +46,27 @@ import com.sopt.dive.util.noRippleClickable
 @Composable
 fun LoginRoute(
     paddingValues: PaddingValues,
+    viewModel: LoginViewModel = hiltViewModel(),
     navigateToHome: () -> Unit = {},
     navigateToSignUp: () -> Unit = {}
 ) {
     val accountState = rememberLoginAccountState()
-    val answerId = prefs.getData(PrefsConst.ID_DATA)
-    val answerPw = prefs.getData(PrefsConst.PW_DATA)
+
+    val loginState by viewModel.loginState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(loginState) {
+        when(loginState) {
+            is UiState.Success -> {
+                val userId = (loginState as UiState.Success<Int>).data.toString()
+                prefs.setData(PrefsConst.USER_ID_DATA, userId)
+                prefs.setData(PrefsConst.USER_NAME_DATA, accountState.name)
+                prefs.setData(PrefsConst.PW_DATA, accountState.pw)
+
+                navigateToHome()
+            }
+            else -> {}
+        }
+    }
 
     LoginScreen(
         paddingValues = paddingValues,
@@ -54,9 +75,12 @@ fun LoginRoute(
             navigateToSignUp()
         },
         onLoginClick = {
-            if(accountState.id == answerId && accountState.pw == answerPw) {
-                navigateToHome()
-            }
+            val request = LoginRequestDto(
+                username = accountState.name,
+                password = accountState.pw
+            )
+
+            viewModel.login(request)
         }
     )
 }
@@ -136,15 +160,15 @@ fun LoginScreen(
 
             /** ID **/
             Text(
-                text = stringResource(R.string.login_id_title),
+                text = stringResource(R.string.login_username_title),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
 
             TextField(
-                value = accountState.id,
-                onValueChange = { accountState.id = it },
+                value = accountState.name,
+                onValueChange = { accountState.name = it },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
@@ -156,7 +180,7 @@ fun LoginScreen(
                 }),
                 placeholder = {
                     Text(
-                        text = stringResource(R.string.login_id_hint)
+                        text = stringResource(R.string.login_username_hint)
                     )
                 },
                 modifier = Modifier.fillMaxWidth()

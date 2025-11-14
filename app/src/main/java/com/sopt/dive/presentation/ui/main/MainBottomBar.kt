@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +32,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun MainBottomBar(
@@ -77,6 +79,7 @@ private fun RowScope.MainBottomBarItem(
             .fillMaxHeight()
             .align(Alignment.CenterVertically)
             .weight(1f)
+            .background(DiveTheme.colors.backgroundColor)
             .selectable(
                 selected = selected,
                 role = Role.Tab,
@@ -90,7 +93,7 @@ private fun RowScope.MainBottomBarItem(
         Icon(
             painter = painterResource(id = tab.defaultIconResId),
             contentDescription = null,
-            tint = if (selected) tab.selectedIconColor else tab.defaultIconColor,
+            tint = if (selected) DiveTheme.colors.mainBlue else DiveTheme.colors.textColor,
             modifier = Modifier.size(24.dp)
         )
     }
