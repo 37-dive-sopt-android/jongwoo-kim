@@ -7,18 +7,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 
 interface LoginAccountState {
-    var id: String
+    var name: String
     var pw: String
 
     val isLoginBtnEnable: Boolean
 }
 
 private class LoginAccountStateImpl() : LoginAccountState {
-    override var id: String by mutableStateOf("")
+    override var name: String by mutableStateOf("")
     override var pw: String by mutableStateOf("")
 
     override val isLoginBtnEnable: Boolean
-        get() = id.isNotEmpty() && pw.isNotEmpty()
+        get() = name.isNotEmpty() && pw.isNotEmpty()
 }
 
 @Composable

@@ -6,11 +6,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import com.sopt.dive.R
 import com.sopt.dive.core.navigation.MainRoute
+import com.sopt.dive.ui.theme.DiveTheme
 
 enum class MainTab(
     @DrawableRes val defaultIconResId: Int,
-    val defaultIconColor: Color = Color.Unspecified,
-    val selectedIconColor: Color = Color.Cyan,
     val route: MainRoute
 ) {
     HOME(

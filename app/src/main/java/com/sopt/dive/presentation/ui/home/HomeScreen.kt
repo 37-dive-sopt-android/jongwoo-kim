@@ -15,13 +15,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,8 +36,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.rememberAsyncImagePainter
 import com.sopt.dive.R
 import com.sopt.dive.core.state.UiState
+import com.sopt.dive.data.dto.user.UserInfoData
 import com.sopt.dive.domain.model.friend.FriendInfoData
-import com.sopt.dive.domain.model.user.UserInfoData
+import com.sopt.dive.ui.theme.DiveTheme
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -79,7 +82,7 @@ fun HomeScreen(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(DiveTheme.colors.backgroundColor)
             .padding(paddingValues)
             .padding(horizontal = 16.dp, vertical = 40.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -93,16 +96,17 @@ fun HomeScreen(
                     Image(
                         painter = painterResource(id = R.drawable.default_profile),
                         contentDescription = null,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
                     )
 
                     Spacer(Modifier.width(8.dp))
 
                     Text(
-                        text = homeUserInformation.nickname,
-                        fontSize = 24.sp,
-                        color = Color.Black,
-                        fontWeight = FontWeight.Medium
+                        text = homeUserInformation.name,
+                        style = DiveTheme.typography.title.bold_22,
+                        color = DiveTheme.colors.textColor,
                     )
                 }
 
@@ -110,23 +114,23 @@ fun HomeScreen(
 
                 // ID
                 Text(
-                    text = stringResource(R.string.main_id_title, homeUserInformation.id),
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
+                    text = stringResource(R.string.main_name_title, homeUserInformation.name),
+                    style = DiveTheme.typography.body.medium_16,
+                    color = DiveTheme.colors.textColor,
                 )
 
                 // NICKNAME
                 Text(
-                    text = stringResource(R.string.main_nickname_title, homeUserInformation.nickname),
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
+                    text = stringResource(R.string.main_username_title, homeUserInformation.username),
+                    style = DiveTheme.typography.body.medium_16,
+                    color = DiveTheme.colors.textColor,
                 )
 
                 // DRINK
                 Text(
-                    text = stringResource(R.string.main_drink_title, homeUserInformation.drink),
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
+                    text = stringResource(R.string.main_age_title, homeUserInformation.age),
+                    style = DiveTheme.typography.body.medium_16,
+                    color = DiveTheme.colors.textColor,
                 )
             }
 
@@ -155,7 +159,8 @@ private fun FriendItemLayout(friendInfo: FriendInfoData) {
     ) {
         Image(
             painter = if(friendInfo.profileImageUrl.isBlank()) painterResource(id = R.drawable.default_profile) else rememberAsyncImagePainter(friendInfo.profileImageUrl),
-            contentDescription = null
+            contentDescription = null,
+            modifier = Modifier.clip(CircleShape)
         )
 
         Spacer(Modifier.width(10.dp))
@@ -169,8 +174,8 @@ private fun FriendItemLayout(friendInfo: FriendInfoData) {
                 // nickname
                 Text(
                     text = friendInfo.nickname,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 16.sp
+                    style = DiveTheme.typography.body.medium_16,
+                    color = DiveTheme.colors.textColor,
                 )
 
                 Spacer(Modifier.width(6.dp))
@@ -189,8 +194,8 @@ private fun FriendItemLayout(friendInfo: FriendInfoData) {
             // description
             Text(
                 text = friendInfo.description,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
+                style = DiveTheme.typography.body.medium_16,
+                color = DiveTheme.colors.textColor,
                 overflow = TextOverflow.Ellipsis
             )
         }
@@ -201,10 +206,12 @@ private fun FriendItemLayout(friendInfo: FriendInfoData) {
 @Composable
 private fun PreviewHome() {
     val homeUserInformation = UserInfoData(
-        id = "ididid",
-        pw = "pwpwpwpw",
-        nickname = "nicknick",
-        drink = "drinkdrink"
+        id = 0,
+        username = "userName",
+        name = "name",
+        email = "email",
+        age = 0,
+        status = "status"
     )
 
     HomeScreen(
